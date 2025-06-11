@@ -1,5 +1,3 @@
-
-
 string_1 = "([e]rr)" #false
 string_2 = ")([]()" #false
 string_3 = "(){[]" #false
@@ -34,7 +32,7 @@ def valid_parentheses(string):
         # add number of char to count       
         count_char += (head + tail)
         # check if open char have a close char
-        if tail != head:
+        if head != tail:
             return False
         # reset count for next char check
         head = 0
