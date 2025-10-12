@@ -1,0 +1,26 @@
+def largestGoodInteger(self, num: str) -> str:
+    nums = [int(n) for n in num]
+    candidats = []
+    
+    for i in range(len(num) - 2):
+        n = num[i]
+
+        if n == num[i+1] == num[i+2]:
+            candidats.append(n)
+
+    if candidats:
+        top_candidat = max(candidats)
+        winner = str(top_candidat * 3)
+    else:
+        winner = ""
+
+    return winner 
+
+print(largestGoodInteger(None, "6777133339"))  # Output: "777"
+print(largestGoodInteger(None, "2300019"))     # Output: "000"
+print(largestGoodInteger(None, "42352338"))    # Output: ""
+
+
+            
+            
+             
