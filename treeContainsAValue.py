@@ -10,7 +10,7 @@ class Node:
         
 node_6= Node("node_6", False, None, []) 
 node_5 = Node("node_5", False, None, [])    
-node_4 = Node("node_4", False, None, [node_6])
+node_4 = Node("node_4", True, None, [node_6])
 node_3 = Node("node_3", False, None, [node_5])
 node_2 = Node("node_2", False, None, [])    
 node_1 = Node("node_1", False, None, [node_2, node_3, node_4])
