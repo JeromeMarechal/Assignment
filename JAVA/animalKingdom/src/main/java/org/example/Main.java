@@ -4,7 +4,7 @@ package org.example;
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     static void main() {
-        Animal lion = new Animal("Simba", "Félin", 'M', 15);
+        Animal lion = new Animal("Simba", "Félin", Genre.MALE, 15);
         System.out.println(lion.getProfile());
     }
 }

@@ -1,36 +1,33 @@
 package org.example;
 
 public class Animal {
-    private String name;
-    private String species;
-    private char gender;
+    private final String name;
+    private final String species;
+    private Genre gender;
     private int age;
 
-    public Animal(String name, String species, char gender, int age) {
+    public Animal(String name, String species, Genre gender, int age) {
         this.name = name;
         this.species = species;
-        this.gender = gender;
-        this.age = age;
+        setAge(age);
+        setGender(gender);
     }
 
     public void setAge(int age) {
-        if (age >= 0) {
-            this.age = age;
-        } else {
-            System.out.println("ERROR: l'âge ne peut pas être négatif !!");
-            this.age = 0;
+        if (age < 0) {
+            throw new IllegalArgumentException("Animal's age cannot be negative");
         }
+        this.age = age;
     }
 
-    public void setGender(char gender) {
-        if (gender == 'M' || gender == 'F') {
-            this.gender = gender;
-        } else {
-            gender = 'Z';
+    public void setGender(Genre gender) {
+        if (gender == null) {
+            throw new IllegalArgumentException("Animal's gender cannot be null.");
         }
+        this.gender = gender;
     }
 
     public String getProfile() {
-        return String.format("Voici un magnifique " + species + " de " + age + " ans, (" + gender + ") qui se prénomme " + name + ".");
+        return String.format("Voici un magnifique %s de %d ans, %s, qui se prénomme %s", species, age, gender, name);
     }
 }
