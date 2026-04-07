@@ -1,4 +1,4 @@
-package org.example;
+package animalKingdom;
 
 public class Animal {
     private final String name;
@@ -31,3 +31,5 @@ public class Animal {
         return String.format("Voici un magnifique %s de %d ans, %s, qui se prénomme %s", species, age, gender, name);
     }
 }
+
+

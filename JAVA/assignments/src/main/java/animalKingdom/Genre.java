@@ -1,5 +1,6 @@
-package org.example;
+package animalKingdom;
 
 public enum Genre {
     MALE, FEMALE;
 }
+
