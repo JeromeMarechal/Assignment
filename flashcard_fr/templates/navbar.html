@@ -1,0 +1,56 @@
+<nav class="fixed top-0 inset-x-0 z-50 bg-charcoal/80 backdrop-blur-md shadow-md">
+  <div class="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between bg-charcoal/80">
+    <!-- Brand -->
+    <a href="{{ url_for('home') }}" class="text-2xl font-heading text-text-light">Flashcards</a>
+
+    <!-- Hamburger: only visible on mobile -->
+    <button id="nav-toggle" class="md:hidden text-text-light focus:outline-none">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path id="nav-icon" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M4 6h16M4 12h16M4 18h16" />
+      </svg>
+    </button>
+
+    <!-- Center: page links -->
+    <div id="nav-menu"
+         class="hidden absolute top-full left-0 w-full bg-charcoal md:static md:block md:w-auto">
+      <div class="flex flex-col md:flex-row md:justify-center md:space-x-6 space-y-2 md:space-y-0 p-4 md:p-0 text-text-light">
+        {% if current_user.is_authenticated %}
+          <a href="{{ url_for('home') }}"        class="hover:text-accent-purple">Home</a>
+          <a href="{{ url_for('card.search') }}"      class="hover:text-accent-purple">Search</a>
+          <a href="{{ url_for('quiz.quiz') }}"        class="hover:text-accent-purple">Quiz</a>
+          <a href="{{ url_for('expressions.expressions') }}" class="hover:text-accent-purple">Expressions</a>
+          <a href="{{ url_for('dashboard.dashboard') }}"   class="hover:text-accent-purple">Dashboard</a>
+        {% endif %}
+                     <!-- Auth links inside the same dropdown on mobile -->
+        <div class="border-t border-charcoal pt-4 mt-4 md:mt-0 md:pt-0 md:border-0 md:hidden space-y-2">
+          {% if current_user.is_authenticated %}
+            <a href="{{ url_for('auth.logout') }}"   class="hover:text-accent-purple block">Logout</a>
+          {% else %}
+            <a href="{{ url_for('auth.login') }}"    class="hover:text-accent-purple block">Login</a>
+            <a href="{{ url_for('auth.register') }}" class="hover:text-accent-purple block">Register</a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: auth links (always visible) -->
+    <div id="nav-auth" 
+      class="hidden md:flex md:space-x-6 text-text-light">
+      {% if current_user.is_authenticated %}
+        <a href="{{ url_for('auth.logout') }}" class="hover:text-accent-purple">Logout</a>
+      {% else %}
+        <a href="{{ url_for('auth.login') }}"    class="hover:text-accent-purple">Login</a>
+        <a href="{{ url_for('auth.register') }}" class="hover:text-accent-purple">Register</a>
+      {% endif %}
+    </div>
+  </div>
+</nav>
+
+<script>
+// Simple toggle for mobile menu
+document.getElementById('nav-toggle').addEventListener('click', () => {
+  const menu = document.getElementById('nav-menu');
+  menu.classList.toggle('hidden');
+});
+</script>

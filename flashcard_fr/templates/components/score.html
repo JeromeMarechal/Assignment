@@ -1,0 +1,189 @@
+{% macro score(finalScore, mention, comment) %}
+    
+    <div class="flex flex-col items-center justify-center pt-8 pb-0 bg-midnight">
+        <!-- Main Score Container -->
+        <div class="relative">
+            <!-- Glow effect background -->
+            <div id="glowBg" class="absolute inset-0 rounded-full blur-2xl opacity-40 transition-all duration-1000"
+                 style="background: linear-gradient(135deg, #bb86fc, #7c3aed);"></div>
+
+            <!-- Score Circle Component -->
+            <div class="relative w-80 h-80 flex items-center justify-center">
+                <svg class="w-full h-full transform -rotate-90 drop-shadow-2xl" viewBox="0 0 120 120">
+                    <!-- Outer shadow circle -->
+                    <circle 
+                    cx="60" 
+                    cy="60" 
+                    r="54" 
+                    fill="none" 
+                    stroke="#bb86fc" 
+                    stroke-width="8"
+                    opacity="0.1"
+                    />
+                    <!-- Background circle -->
+                    <circle 
+                    cx="60" 
+                    cy="60" 
+                    r="54" 
+                    fill="none" 
+                    stroke="#ffffff" 
+                    stroke-width="6"
+                    opacity="0.05"
+                    />
+                    <!-- Progress circle with adaptive gradient -->
+                    <circle 
+                    id="progressCircle"
+                    cx="60" 
+                    cy="60" 
+                    r="54" 
+                    fill="none" 
+                    stroke="url(#gradientScore)" 
+                    stroke-width="6"
+                    stroke-dasharray="339.29"
+                    stroke-dashoffset="339.29"
+                    stroke-linecap="round"
+                    class="transition-all duration-1000 ease-out filter drop-shadow-lg"
+                    />
+                    <!-- Adaptive Gradient based on score -->
+                    <defs>
+                    <linearGradient id="gradientScore" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#bb86fc;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#7c3aed;stop-opacity:1" />
+                    </linearGradient>
+                    <filter id="glow">
+                        <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+                        <feMerge>
+                            <feMergeNode in="coloredBlur"/>
+                            <feMergeNode in="SourceGraphic"/>
+                        </feMerge>
+                    </filter>
+                    </defs>
+                </svg>
+                
+                <!-- Score text with animation -->
+                <div class="absolute inset-0 flex flex-col items-center justify-center">
+                    <div class="text-center">
+                        <span id="scorePercent" class="text-7xl font-black text-accent-purple drop-shadow-[0_0_15px_rgba(187,134,252,0.5)]">
+                            {{ finalScore }}
+                        </span>
+                        <span class="text-3xl font-bold text-purple-500 block">%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Performance Feedback -->
+        <div class="mt-10 text-center">
+            <h2 id="performanceTitle" class="text-3xl font-bold bg-gradient-to-r from-purple-400 via-pink-500 to-purple-600 bg-clip-text text-transparent mb-2">
+                {{ mention }}
+            </h2>
+            <p id="performanceText" class="text-gray-400 text-lg font-medium">
+                {{ comment }}
+            </p>
+        </div>
+        
+        <!-- Animated stars/badges for high scores -->
+        <div id="starContainer" class="mt-6 flex gap-2 justify-center opacity-0 transition-opacity duration-1000">
+            <span class="text-4xl animate-bounce" style="animation-delay: 0s;">⭐</span>
+            <span class="text-4xl animate-bounce" style="animation-delay: 0.2s;">✨</span>
+            <span class="text-4xl animate-bounce" style="animation-delay: 0.4s;">⭐</span>
+        </div>
+    </div>
+
+    <style>
+        @keyframes shimmer {
+            0%, 100% { opacity: 0.8; }
+            50% { opacity: 1; }
+        }
+        
+        #scorePercent {
+            animation: shimmer 2s ease-in-out infinite;
+        }
+    </style>
+
+    <script>
+    function animateScore(finalScore) {
+        const element = document.getElementById('scorePercent');
+        const progressCircle = document.getElementById('progressCircle');
+        const performanceTitle = document.getElementById('performanceTitle');
+        const performanceText = document.getElementById('performanceText');
+        const starContainer = document.getElementById('starContainer');
+        const glowBg = document.getElementById('glowBg');
+        const stop1 = document.getElementById('stop1');
+        const stop2 = document.getElementById('stop2');
+        
+        let currentScore = 0;
+
+        const interval = setInterval(() => {
+            currentScore += Math.ceil(finalScore / 50);
+            if (currentScore > finalScore) currentScore = finalScore;
+            
+            element.textContent = currentScore;
+            const offset = 339.29 * (1 - currentScore / 100);
+            progressCircle.style.strokeDashoffset = offset;
+            
+            // Update gradient color based on score
+            updateGradient(currentScore, stop1, stop2, glowBg);
+            
+            if (currentScore >= finalScore) {
+                clearInterval(interval);
+                updatePerformanceText(finalScore, performanceTitle, performanceText, starContainer);
+            }
+        }, 30);
+    }
+
+    function updateGradient(score, stop1, stop2, glowBg) {
+        let color1, color2;
+        
+        if (score >= 80) {
+            // Green gradient for high scores
+            color1 = '#10b981';
+            color2 = '#059669';
+        } else if (score >= 60) {
+            // Yellow/Orange gradient for medium scores
+            color1 = '#f59e0b';
+            color2 = '#d97706';
+        } else {
+            // Red gradient for low scores
+            color1 = '#ef4444';
+            color2 = '#dc2626';
+        }
+        
+        stop1.style.stopColor = color1;
+        stop2.style.stopColor = color2;
+        glowBg.style.background = `linear-gradient(135deg, ${color1}, ${color2})`;
+    }
+
+    function updatePerformanceText(score, titleEl, textEl, starContainer) {
+        let title, text;
+        
+        if (score >= 90) {
+            title = '🎉 Perfect! 🎉';
+            text = 'Outstanding! You\'re a champion!';
+        } else if (score >= 80) {
+            title = '🌟 Excellent!';
+            text = 'Great job! Well done!';
+        } else if (score >= 70) {
+            title = '👍 Good Job!';
+            text = 'Nice effort! Keep it up!';
+        } else if (score >= 60) {
+            title = '📚 Not Bad!';
+            text = 'You\'re on the right track!';
+        } else {
+            title = '💪 Keep Trying!';
+            text = 'Practice makes perfect!';
+        }
+        
+        titleEl.textContent = title;
+        textEl.textContent = text;
+        
+        // Show stars for high scores
+        if (score >= 80) {
+            starContainer.classList.remove('opacity-0');
+            starContainer.classList.add('opacity-100');
+        }
+    }
+
+    </script>
+
+{% endmacro %}

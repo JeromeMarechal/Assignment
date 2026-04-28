@@ -1,0 +1,65 @@
+[project]
+name = "flashcard-fr"
+version = "0.1.0"
+description = "Language flashcard application"
+authors = [
+    {name = "Jérôme Maréchal",email = "jerome-marechal@proton.me"}
+]
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "flask (>=3.1.2,<4.0.0)",
+    "flask-login (>=0.6.3,<0.7.0)",
+    "flask-sqlalchemy (>=3.1.1,<4.0.0)",
+    "flask-migrate (>=4.1.0,<5.0.0)",
+    "python-dotenv (>=1.2.1,<2.0.0)",
+    "google-genai (>=1.64.0,<2.0.0)",
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+package-mode = false
+
+
+[dependency-groups]
+dev = [
+    "mypy (>=1.19.1,<2.0.0)",
+    "types-requests (>=2.32.4.20250913,<3.0.0.0)",
+    "ruff (>=0.15.2,<0.16.0)"
+]
+
+[tool.ruff]
+# La longueur de ligne standard
+line-length = 88
+target-version = "py311"
+
+# Dossiers à ignorer
+exclude = [
+    ".git",
+    ".venv",
+    "__pycache__",
+    "build",
+    "dist",
+    "migrations",
+]
+
+[tool.ruff.lint]
+# "E" (Error), "F" (Pyflakes), "I" (Isort - tri des imports)
+select = ["E", "F", "I", "W", "UP"]
+ignore = [
+    "E501", # Ignore les lignes trop longues
+    "F401", # Optionnel : ignore les imports inutilisés
+]
+
+# Permet de ne pas râler sur les imports non utilisés dans les __init__.py
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["F401"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false

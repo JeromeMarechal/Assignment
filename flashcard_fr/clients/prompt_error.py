@@ -1,0 +1,41 @@
+import json
+import os
+import re
+from typing import Dict, Union
+
+import google.generativeai as genai
+from dotenv import load_dotenv
+
+# Load configuration once at module level
+load_dotenv()
+genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
+model = genai.GenerativeModel("gemini-2.5-flash")
+
+
+def get_word_analysis(message_error: str) -> dict | str:
+    """
+    Give a friendly error message from the error message generator model.
+
+    Args:
+        message: An error message from the machine word.
+
+    Returns:
+        A error translated from machine word to human word.
+    """
+    # Cache the prompt template to avoid string formatting on each call
+    prompt_template = """
+    You are a friendly error message generator.
+    'message_error': Humanize the error message from the machine word.
+    """
+
+    # Use a single API call with formatted prompt
+    response = model.generate_content(
+        [prompt_template.format(message_error=message_error)]
+    )
+
+    # Return the raw response (you might want to add JSON parsing here)
+    clean_text = re.sub(
+        r"^```json\s*|\s*```$", "", response.text.strip(), flags=re.DOTALL
+    )
+    data = json.loads(clean_text)
+    return data

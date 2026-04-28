@@ -1,0 +1,65 @@
+{% macro card(translation, btn_1=none, btn_2=none) %}
+
+<div class="flex flex-col items-center justify-center min-h-screen bg-midnight">
+    <div class="w-full max-w-sm">
+        <!-- Flashcard container with perspective for 3D effect -->
+        <div class="[perspective:1000px]">
+            <!-- Flashcard button with data attribute for flipping -->
+            <button type="button" aria-label="Flip card" class="flashcard relative w-full h-96 rounded-2xl bg-transparent outline-none focus:ring-4 focus:ring-indigo-300" data-flipped="false">
+            <!-- The rotating inner panel -->
+            <div class="relative w-full h-full transition-transform duration-500 [transform-style:preserve-3d] ease-[cubic-bezier(.2,.8,.2,1)] data-[flipped=true]:[transform:rotateY(180deg)] group">
+                <!-- Front side -->
+                <div class="absolute inset-0 grid place-items-center rounded-2xl bg-white shadow-lg [backface-visibility:hidden] border border-zinc-200">
+                    <div class="text-center px-6">
+                        <h1 class="mt-1 text-3xl font-semibold text-zinc-900">{{ translation.word_fr }}</h1>
+                        <p class="mt-3 text-zinc-400 text-sm">Click to flip</p>
+                    </div>
+                </div>
+
+              <!-- Back side -->
+                <div class="absolute inset-0 grid place-items-center rounded-2xl bg-purple-600 text0-white shadow-xl [transform:rotateY(180deg)] [backface-visibility:hidden] border border-purple-700/20">
+                    <div class="text-center px-2">
+                        <h2 class="mt-1 text-2xl font-semibold">{{ translation.word_lang }}</h2>
+                        <p class="mt-1 text-purple-200 text-xs tracking-widest uppercase">{{ translation.part_of_speech }}</p>
+                        {% for def in translation.definitions %}
+                            <p class="mt-1 text-purple-200 text-xs tracking-widest">{{ def }}</p>
+                        {% endfor %}  
+                        <p class="mt-2 text-purple-200 text-xs tracking-widest">Synonym: {{ translation.synonyms }}</p>
+                        {% for ex,ex_trans in translation.examples_pairs %}
+                            <p class="mt-4 text-purple-100 text-sm italic">"{{ ex }}"</p>
+                            <p class="mt-1 text-purple-200 text-xs">- "{{ ex_trans }}"</p>
+                        {% endfor %}
+                        <p class="mt-3 text-purple-200/80 text-sm">Click again to flip back</p>
+                    </div>
+                </div>
+            </div>
+            </button>
+        </div>
+
+        <!-- Action buttons below the card -->
+        {% if btn_1 or btn_2 %}
+            <div class="mt-4 flex items-center justify-between text-sm text-zinc-600">
+                <span>Tip: Space/Enter flips the card.</span>
+                <div class="flex items-center gap-2">
+                    {% if btn_1 %}
+                        <button type="button" id="{{ btn_1 }}" data-card-id="{{ translation.card_id }}" 
+                        class="relative flex items-center justify-center p-4 
+                        text-sm font-medium transition-all duration-300 
+                        bg-purple-600/20 border border-white/10 rounded-xl text-black 
+                        hover:bg-purple-600/30 hover:border-purple-500/50 hover:text-black/90 
+                        hover:shadow-[0_0_20px_rgba(147,51,234,0.3)] active:scale-95">{{ btn_1 }}</button>
+                    {% endif %}
+                    {% if btn_2 %}
+                        <button type="button" id="{{ btn_2 }}" data-card-id="{{ translation.card_id }}" 
+                        class="relative flex items-center justify-center p-4 
+                        text-sm font-medium transition-all duration-300 
+                        bg-purple-600/20 border border-white/10 rounded-xl text-black 
+                        hover:bg-purple-600/30 hover:border-purple-500/50 hover:text-black/90 
+                        hover:shadow-[0_0_20px_rgba(147,51,234,0.3)] active:scale-95">{{ btn_2 }}</button>
+                    {% endif %}
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endmacro %}      

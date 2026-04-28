@@ -1,0 +1,7 @@
+{
+  "name": "language-flashcards",
+  "version": "1.0.0",
+  "description": "Flask + Tailwind flashcards app (CDN mode)",
+  "author": "Jerome Marechal",
+  "license": "MIT"
+}

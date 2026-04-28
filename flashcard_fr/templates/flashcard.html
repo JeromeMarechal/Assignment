@@ -1,0 +1,60 @@
+{% extends 'layout.html' %}
+
+{% from 'components/card.html' import card %}
+
+{% block title %} flashcard - flashcards {% endblock %}
+
+{% block main %}
+
+    {% if translation %}
+      {{ card(translation, "Discard", "Add") }}
+    {% else %}
+      {% if error %}
+        <div class="text-red-500 text-sm text-center mt-2">{{ error }}</div>
+      {% else %}
+        <p class="text-purple-200/70 text-sm mt-4">Search for a word to see its translation!</p>
+      {% endif %}
+    {% endif %}
+
+<script>
+  // Only run if the flashcard exists
+  const flashcardBtn = document.querySelector('.flashcard');
+  const rotator = flashcardBtn?.querySelector('[data-flipped] ~ div, .group');
+
+  if (flashcardBtn) {
+    function toggleFlip() {
+      const isFlipped = flashcardBtn.getAttribute('data-flipped') === 'true';
+      flashcardBtn.setAttribute('data-flipped', String(!isFlipped));
+      rotator?.setAttribute('data-flipped', String(!isFlipped));
+    }
+
+    flashcardBtn.addEventListener('click', toggleFlip);
+    flashcardBtn.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        toggleFlip();
+      }
+    });
+  }  
+
+  document.getElementById('Discard').addEventListener('click', async () => {
+    window.location.href = '/search';
+  });
+
+
+  document.getElementById('Add').addEventListener('click', async () => {
+    const response = await fetch('/card/add_card', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      credentials: 'same-origin',
+      body: JSON.stringify({ card_id: {{ translation.card_id }} })
+    });
+    const result = await response.json();
+    alert(result.message);
+  });
+
+</script>
+{% endblock %}
+

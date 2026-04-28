@@ -1,0 +1,169 @@
+##############################
+# PYTHON
+##############################
+
+# Byte-compiled / optimized
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+##############################
+# VIRTUAL ENVIRONMENTS
+##############################
+
+.env
+.env.*
+.envrc
+
+.venv/
+venv/
+ENV/
+env/
+env.bak/
+venv.bak/
+
+##############################
+# DATABASES (LOCAL ONLY)
+# NEVER COMMIT DATABASE FILES
+##############################
+
+*.db
+*.sqlite
+*.sqlite3
+*.sqlite3-journal
+
+# Flask instance folder (often contains DB)
+instance/
+
+##############################
+# FLASK / DJANGO
+##############################
+
+# Flask
+.webassets-cache
+
+# Django
+*.log
+local_settings.py
+
+##############################
+# MIGRATIONS (IMPORTANT NOTE)
+##############################
+# DO NOT ignore migrations themselves
+# Only ignore migration cache / temp files
+
+migrations/**/__pycache__/
+alembic/__pycache__/
+
+##############################
+# TESTING / COVERAGE
+##############################
+
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+.pytest_cache/
+nosetests.xml
+coverage.xml
+*.cover
+*.py.cover
+
+##############################
+# BUILD / PACKAGING
+##############################
+
+build/
+dist/
+sdist/
+wheels/
+*.egg-info/
+.eggs/
+.installed.cfg
+*.egg
+MANIFEST
+
+##############################
+# PYINSTALLER
+##############################
+
+*.spec
+*.manifest
+
+##############################
+# NOTEBOOKS
+##############################
+
+.ipynb_checkpoints/
+
+##############################
+# TYPE CHECKERS / LINTERS
+##############################
+
+.mypy_cache/
+.dmypy.json
+.pytype/
+.pyre/
+.ruff_cache/
+
+##############################
+# FRONTEND (IF ANY)
+##############################
+
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+dist/
+build/
+
+##############################
+# IDEs / EDITORS
+##############################
+
+# VS Code
+.vscode/
+
+# PyCharm / JetBrains
+.idea/
+
+# Spyder
+.spyderproject
+.spyproject
+
+# Rope
+.ropeproject
+
+##############################
+# OS FILES
+##############################
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+##############################
+# GIT
+##############################
+
+*.orig
+*.rej
+
+##############################
+# TEMP / MISC
+##############################
+
+tmp/
+temp/
+.cache/

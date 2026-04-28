@@ -1,0 +1,33 @@
+{% extends 'layout.html' %}
+
+{% block title %} error_alert - flashcards {% endblock %}
+
+{% block main %}
+    {% if message %}
+        <div id="errorAlert" class="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
+            <div class="relative bg-red-100 border border-red-400 text-red-700 px-6 py-4 rounded-xl shadow-lg max-w-md w-full">
+                <!-- Close button -->
+                <button onclick="document.getElementById('errorAlert').remove()"
+                    class="absolute top-2 right-2 text-red-500 hover:text-red-700 focus:outline-none"
+                    aria-label="Fermer">
+                    <p class="font-small">X</p>
+                </button>
+
+                <!-- Content -->
+                <div class="flex items-center gap-3">
+                    <span class="font-medium">{{ message }}</span>
+                </div>
+            </div>
+        </div>
+
+    <script>
+        document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' || e.key === 'Enter') {
+            const el = document.getElementById('errorAlert');
+            if (el) el.remove();
+            }
+        });
+    </script>
+{% endif %}
+
+{% endblock %}

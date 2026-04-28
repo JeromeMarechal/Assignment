@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Flashcards App{% endblock %}</title>
+
+  <!-- Tailwind CDN + custom config -->
+  <script>
+    tailwind.config = {
+      // darkMode: 'class',  <-- SUPPRIME CETTE LIGNE
+      theme: {
+        extend: {
+          colors: {
+            'midnight': '#121212',
+            'charcoal': '#1e1e1e',
+            'accent-purple': '#bb86fc',
+            'purple-500': '#6200ee',
+            'velvet-black': '#0d0d0d',
+            'accent-gray': '#333333',
+            'text-light': '#f5f5f5',
+          }
+        }
+      }
+    }
+  </script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Optional local overrides -->
+  <link href="{{ url_for('static', filename='styles.css') }}" rel="stylesheet">
+</head>
+<body class="bg-velvet-black text-text-light font-body antialiased">
+  <header>
+    {% block nav %}
+      {% include 'navbar.html' %}
+    {% endblock %}
+  </header>
+
+  <main>
+    {% block main %}{% endblock %}
+  </main>
+</body>
+</html>
