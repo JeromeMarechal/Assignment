@@ -4,11 +4,21 @@ import java.util.ArrayList;
 
 public class CardRepository {
     private List<Card> database = new ArrayList<>();
+    private int currentId = 1;
 
-    public CardRepository() {
-        database.add(new Card(1, "chien", "dog"));
-        database.add(new Card(2, "chat", "cat"));
-        database.add(new Card(3, "humain", "human"));
+    public Card save (Card card) {
+        System.out.println("Ssving card in database ...");
+
+        Card savedCard = new Card (
+            currentId++,
+            card.getWord(),
+            card.getTranslation()
+        );
+
+        database.add(savedCard);
+
+        System.out.println("Card saved with ID : " + savedCard.getId());
+        return savedCard;
     }
 
     public List<Card> getAll() {
